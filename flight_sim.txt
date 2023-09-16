@@ -6,3 +6,46 @@
   "payloadPadding": "pkcs7",
   "encryptionDate": "2023-09-16T13:25:32.211Z"
 }
+
+///////////////////////
+//Rotable JLabel code//
+///////////////////////
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+
+class RotatableLabel extends JLabel {
+    private double angle; // The rotation angle in degrees
+
+    public RotatableLabel() {
+        super();
+    }
+
+    public RotatableLabel(Icon image) {
+        super(image);
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+        repaint(); // Redraw the label when the angle is changed
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        AffineTransform transform = new AffineTransform();
+        int x = getWidth() / 2;
+        int y = getHeight() / 2;
+        transform.rotate(Math.toRadians(angle), x, y);
+        g2d.setTransform(transform);
+        super.paintComponent(g2d);
+        g2d.dispose();
+    }
+}
